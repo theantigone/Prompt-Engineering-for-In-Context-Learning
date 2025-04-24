@@ -56,7 +56,7 @@ Install the required dependencies:
 ```shell
 (venv) ~/Prompt-Engineering-for-In-Context-Learning $ pip install -r requirements.txt
 ```
-## **2.3 Run the fine-tuning model**
+## **2.3 Run the prompt engineering model**
 
 (1) Run Prompt Engineering Demo
 
