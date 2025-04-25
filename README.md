@@ -10,7 +10,13 @@
 ---
 
 # **1. Introduction**  
-**Prompt Engineering for In-Context Learning** investigates the impact of different prompt designs on the performance of **Large Language Models** (LLMs) across a variety of software engineering tasks. In this assignment, five prompting strategies—*zero-shot*, *few-shot*, *chain-of-thought*, *prompt-chaining*, and *self-consistency*—were applied to 22 tasks, including code summarization, bug fixing, API generation, and code translation. Experiments compared four models—[gpt-4.1](https://github.com/marketplace/models/azure-openai/gpt-4-1/), [Codestral-2501](https://github.com/marketplace/models/azureml-mistral/Codestral-2501), [gpt-4.1-mini](https://github.com/marketplace/models/azure-openai/gpt-4-1-mini), and [gpt-4.1-nano](https://github.com/marketplace/models/azure-openai/gpt-4-1-nano)—to demonstrate how the strategic use of prompt examples and structured reasoning influences the quality and clarity of generated code. Self-consistency prompting employed `3` repetitions, with a temperature setting of `0.7` and a maximum token limit of `1024` tokens across all evaluations.
+**Prompt Engineering for In-Context Learning** investigates the impact of different prompt designs on the performance of **Large Language Models** (LLMs) across a variety of software engineering tasks. 
+
+In this assignment, five prompting strategies—*zero-shot*, *few-shot*, *chain-of-thought*, *prompt-chaining*, and *self-consistency*—were applied to 22 tasks, including code summarization, bug fixing, API generation, and code translation. 
+
+Experiments compared four models—[gpt-4.1](https://github.com/marketplace/models/azure-openai/gpt-4-1/), [Codestral-2501](https://github.com/marketplace/models/azureml-mistral/Codestral-2501), [gpt-4.1-mini](https://github.com/marketplace/models/azure-openai/gpt-4-1-mini), and [gpt-4.1-nano](https://github.com/marketplace/models/azure-openai/gpt-4-1-nano)—to demonstrate how the strategic use of prompt examples and structured reasoning influences the quality and clarity of generated code. 
+
+Self-consistency prompting employed `3` repetitions, with a temperature setting of `0.7` and a maximum token limit of `1024` tokens across all evaluations.
 
 ---
 
@@ -77,6 +83,7 @@ You can find the `.csv` files in the `data/interim/user_files` folder.
 ## 3. Report & Analysis
 
 The assignment report is available inside the ``reports`` folder named ``Assignment_Report.pdf``.
+
 You can also find the model comparisons and analyses inside ``reports`` folder named ``Assignment_Analysis.pdf``.
 
 
