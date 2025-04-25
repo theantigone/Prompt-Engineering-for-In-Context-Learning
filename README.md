@@ -10,7 +10,7 @@
 ---
 
 # **1. Introduction**  
-**Prompt Engineering for In-Context Learning** explores how different prompt designs influence **Large Language Models** (LLMs) in solving diverse software engineering tasks. In this assignment, we applied five strategies—**zero-shot**, **few-shot**, **chain-of-thought**, **prompt-chaining**, and **BLEU-based self-consistency**—to 22 problems ranging from code summarization and bug fixing to API generation and code translation. Our experiments compare four models—[gpt-4.1](https://github.com/marketplace/models/azure-openai/gpt-4-1/), [Codestral-2501](https://github.com/marketplace/models/azureml-mistral/Codestral-2501), [gpt-4.1-mini](https://github.com/marketplace/models/azure-openai/gpt-4-1-mini), and [gpt-4.1-nano](https://github.com/marketplace/models/azure-openai/gpt-4-1-nano), demonstrating how strategic prompt examples and structured reasoning affect code quality and clarity. The repetitions is set to `3` for self-consistency prompting, the temperature is set to `0.7`, and the token limit is `1024` for all tables.
+**Prompt Engineering for In-Context Learning** explores how different prompt designs influence **Large Language Models** (LLMs) in solving diverse software engineering tasks. In this assignment, we applied five strategies—**zero-shot**, **few-shot**, **chain-of-thought**, **prompt-chaining**, and **BLEU-based self-consistency**—to 22 problems ranging from code summarization and bug fixing to API generation and code translation. The experiments compare four models—[gpt-4.1](https://github.com/marketplace/models/azure-openai/gpt-4-1/), [Codestral-2501](https://github.com/marketplace/models/azureml-mistral/Codestral-2501), [gpt-4.1-mini](https://github.com/marketplace/models/azure-openai/gpt-4-1-mini), and [gpt-4.1-nano](https://github.com/marketplace/models/azure-openai/gpt-4-1-nano), demonstrating how strategic prompt examples and structured reasoning affect code quality and clarity. The repetitions is set to `3` for self-consistency prompting, the temperature is set to `0.7`, and the token limit is `1024` for all tables.
 
 ---
 
@@ -56,16 +56,23 @@ Install the required dependencies:
 ```shell
 (venv) ~/Prompt-Engineering-for-In-Context-Learning $ pip install -r requirements.txt
 ```
-## **2.3 Run the prompt engineering model**
+
+## **2.3 Enter your API key**
+
+You will need to enter your GitHub **Personal Access Token** (PAT) key into the script to use the models. Create a `token.txt` file, and paste your API key inside that file.
+
+## **2.4 Run the prompt engineering model**
 
 (1) Run Prompt Engineering Demo
 
-This script takes a list of problems that are already prompted by certain strategies and then runs each prompt based upon the models chosen. After the model is ran, then the script with the prompt, strategy uses, and output is all then logged in a csv that is created.
+This script takes a list of problems that are already prompted by certain strategies and then runs each prompt based upon the models chosen. After the model is ran, multiple `.csv` files containing the prompts, code snippets, and outputs are created.
 
 Navigate to the ```src``` directory, then run:
 ```shell
 (venv) ~/Prompt-Engineering-for-In-Context-Learning/src $ python prompt-engineering.py
 ```
+
+You can find the `.csv` files in the `data/processed/user_files` folder.
 
 ## 3. Report
 
