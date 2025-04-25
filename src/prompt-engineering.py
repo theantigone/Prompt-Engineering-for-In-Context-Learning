@@ -7,11 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1uYuDM2HnhtMqvkmPp8flf_aKb62_MW-K
 """
 
-# pip install openai
-!pip3 install openai
-!pip3 install sacrebleu               # text BLEU (reference-free variant)
-!git clone -q https://github.com/microsoft/CodeXGLUE.git
-
 """Run this model in Python
 
 > pip install openai
@@ -23,8 +18,10 @@ import pandas as pd
 # Create your PAT token by following instructions here:
 # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
 # grab the token from the token.txt file
-with open("token.txt", "r") as f:
+with open("../token.txt", "r") as f:
     GITHUB_TOKEN = f.read().strip()
+
+print('token.txt read')
 
 # Set it as an environment variable
 # os.environ["GITHUB_TOKEN"] = "X"
@@ -36,6 +33,8 @@ client = OpenAI(
     # api_key=os.environ["GITHUB_TOKEN"],
     api_key=GITHUB_TOKEN,
 )
+
+print('github token applied')
 
 # List of available models
 model_choices = ["gpt-4.1" , "Codestral-2501", "gpt-4.1-mini", "gpt-4.1-nano", "gpt-4o-mini", "mistral-small-2503", "Mistral-small", "mistral-nemo", "ministral-3b"]
@@ -1485,6 +1484,8 @@ def count_words(lines): ...
 }
 ]
 
+print('prompting strategies read')
+
 zero_shot = pd.DataFrame(zero_shot_tasks)
 zero_shot = zero_shot.rename(columns={'content': 'prompt'})
 zero_shot.insert(2, 'model1_response', '')
@@ -1774,29 +1775,22 @@ print("All tasks completed — dataframe updated!")
 
 prompt_chaining
 
-from google.colab import drive
-drive.mount('/content/drive')
+zero_shot.to_csv('../data/interim/user_files/zero_shot.csv', index=False)
 
-zero_shot.to_csv('/content/drive/Shareddrives/CSCI_420/quang_assignment3/raw_data/zero-shot-raw-data.csv', index=False)
+chain_of_thought.to_csv('../data/interim/user_files/chain_of_thought.csv', index=False)
 
-chain_of_thought.to_csv('/content/drive/Shareddrives/CSCI_420/quang_assignment3/raw_data/chain-of-thought-raw-data.csv', index=False)
+few_shot.to_csv('../data/interim/user_files/few_shot.csv', index=False)
 
-few_shot.to_csv('/content/drive/Shareddrives/CSCI_420/quang_assignment3/raw_data/few-shot-raw-data.csv', index=False)
+self_consistency.to_csv('../data/interim/user_files/self_consistency.csv', index=False)
 
-self_consistency.to_csv('/content/drive/Shareddrives/CSCI_420/quang_assignment3/raw_data/self-consistency-raw-data.csv', index=False)
+prompt_chaining.to_csv('../data/interim/user_files/prompt_chaining.csv', index=False)
 
-prompt_chaining.to_csv('/content/drive/Shareddrives/CSCI_420/quang_assignment3/raw_data/prompt-chaining-raw-data.csv', index=False)
-
-!pip install -q sacrebleu evaluate rouge-score nltk \
-               sentence-transformers codebleu tree_sitter_languages
-!pip install tree-sitter-python==0.21
-!pip install textdistance
-import nltk, evaluate, sacrebleu, pandas as pd, numpy as np
+import nltk, evaluate, sacrebleu, numpy as np
 from sentence_transformers import SentenceTransformer, util
 from codebleu import calc_codebleu
 nltk.download('punkt')
 
-df = pd.read_csv("/content/drive/Shareddrives/CSCI_420/quang_assignment3/raw_data/Copy of few-shot-raw-data.csv")      # adjust filename
+df = pd.read_csv("../data/interim/user_files/zero_shot.csv")      # adjust filename
 df.head()
 
 bleu      = evaluate.load("bleu")
@@ -1860,7 +1854,7 @@ report = pd.DataFrame({
 
 print(report.round(4))
 
-df.to_csv('/content/drive/Shareddrives/CSCI_420/quang_assignment3/raw_data/mini_vs_nano/few-shot/few-shot-analysis.csv', index=False)
+df.to_csv('../data/processed/zero_shot_evaluated.csv', index=False)
 report.to_csv('/content/drive/Shareddrives/CSCI_420/quang_assignment3/raw_data/mini_vs_nano/few-shot/few-shot-report.csv')
 
 report
