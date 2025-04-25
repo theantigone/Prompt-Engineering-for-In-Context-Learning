@@ -1,3 +1,14 @@
 openai
 pandas
+
+# Evaluation metrics
+
 sacrebleu
+evaluate
+rouge-score
+nltk
+sentence-transformers
+codebleu
+tree_sitter_languages
+tree-sitter-python==0.21
+textdistance
