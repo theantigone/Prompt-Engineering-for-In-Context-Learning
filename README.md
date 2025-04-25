@@ -74,9 +74,9 @@ Navigate to the ```src``` directory, then run:
 
 You can find the `.csv` files in the `data/interim/user_files` folder.
 
-## 3. Report
+## 3. Report & Analysis
 
 The assignment report is available inside the ``reports`` folder named ``Assignment_Report.pdf``.
-
+You can also find the model comparisons and analyses inside ``reports`` folder named ``Assignment_Analysis.pdf``.
 
 
