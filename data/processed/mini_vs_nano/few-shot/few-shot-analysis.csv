@@ -1,0 +1,1179 @@
+prompt,code,model1_response,model2_response,cosine_sim,codebleu,exact_match,levenshtein
+"Example 1 (Java)
+Code:
+public int add(int a, int b){ return a + b; }
+Summary:
+Returns the sum of two integers.
+
+Example 2 (Java)
+Code:
+public boolean isEmpty(List<?> list){ return list.size() == 0; }
+Summary:
+Checks if a list has no elements.
+
+Now summarise, in one sentence, the functionality of the following method:","
+public Map<String,Integer> countWordFrequency(List<String> words){
+    Map<String,Integer> freqMap = new HashMap<>();
+    for(String word:words){
+        freqMap.put(word,freqMap.getOrDefault(word,0)+1);
+    }
+    return freqMap;
+}
+",Counts the frequency of each word in a list and returns a map of words to their occurrence counts.,Counts and returns a map of each word's frequency in the input list.,0.9560580849647522,"{'codebleu': 0.40297458318181434, 'ngram_match_score': 0.2383041256525615, 'weighted_ngram_match_score': 0.3735942070746957, 'syntax_match_score': 0.0, 'dataflow_match_score': 0}",0,62
+"Example (Python)
+Buggy code:
+def inclusive_sum(a,b):
+    total=0
+    for i in range(a,b):
+        total+=i
+    return total
+Fixed explanation:
+Use range(a,b+1) or range(a,b) with b incremented.
+
+Your task: identify and fix the off‑by‑one error in the next function, then show the corrected code:","
+def sum_range(start, end):
+    total = 0
+    for i in range(start, end):
+        total += i
+    return total
+","The function is intended to sum all integers from `start` to `end` **inclusive**, but `range(start, end)` excludes `end`. This causes an off-by-one error by missing the last number.
+
+**Fix:** Use `range(start, end + 1)` to include the `end` value in the sum.
+
+```python
+def sum_range(start, end):
+    total = 0
+    for i in range(start, end + 1):
+        total += i
+    return total
+```","The off-by-one error occurs because `range(start, end)` excludes `end`, so the sum does not include the `end` value. To include `end` in the sum, you should adjust the range to go up to `end + 1`.
+
+Corrected code:
+
+```python
+def sum_range(start, end):
+    total = 0
+    for i in range(start, end + 1):
+        total += i
+    return total
+```",0.9369776248931885,"{'codebleu': 0.5026109301438684, 'ngram_match_score': 0.3914929681340935, 'weighted_ngram_match_score': 0.42831530093636344, 'syntax_match_score': 0.5384615384615384, 'dataflow_match_score': 0.6521739130434783}",0,179
+"Example (C++)
+Buggy function:
+int* bad(){ int x=5; return &x; }
+Bug classification:
+Returning pointer to local (stack) variable  ➜  **dangling pointer / use‑after‑scope**.
+
+Given the next C++ function, classify the main bug type in one phrase:","
+int* getArray(int size){
+    int arr[size];
+    return arr;
+}
+",Returning pointer to local (stack) array  ➜ **dangling pointer / use-after-scope**.,Returning pointer to local (stack) variable ,0.829220175743103,"{'codebleu': 0.6526699138038653, 'ngram_match_score': 0.3508439695638686, 'weighted_ngram_match_score': 0.7598356856515925, 'syntax_match_score': 0.5, 'dataflow_match_score': 0}",0,43
+"Example (Python + regex)
+Input regex: r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
+Explanation: username, '@', domain, '.', TLD 2+ letters.
+
+Supply a regex‑based implementation that returns True for valid emails and False otherwise in the function below:","
+def is_valid_email(email):
+    # TODO: Complete using regex
+    pass
+","```python
+import re
+
+def is_valid_email(email):
+    pattern = r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
+    return bool(re.match(pattern, email))
+```","Certainly! Here's a complete implementation of the `is_valid_email` function using the provided regex pattern. It will return `True` if the email matches the pattern (valid email), and `False` otherwise.
+
+```python
+import re
+
+def is_valid_email(email):
+    pattern = r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
+    return re.match(pattern, email) is not None
+```
+
+**Explanation:**
+- Uses `re.match()` to check if the entire string matches the pattern.
+- Returns `True` if there's a match; `False` otherwise.
+
+**Example usage:**
+
+```python
+print(is_valid_email(""user@example.com""))   # True
+print(is_valid_email(""invalid-email""))      # False
+```",0.9203120470046997,"{'codebleu': 0.16273981983561964, 'ngram_match_score': 0.0035208171609287667, 'weighted_ngram_match_score': 0.10926574628668118, 'syntax_match_score': 0.3617021276595745, 'dataflow_match_score': 0.17647058823529413}",0,497
+"Example (Flask)
+@app.route('/hello/<name>')
+def hello(name):
+    return jsonify({'msg':f'Hello {name}!'})
+
+Following the pattern, create a '/greet/<username>' endpoint that returns JSON {""greeting"":""Hello, <username>!""}:","
+from flask import Flask, jsonify
+app = Flask(__name__)
+
+@app.route('/greet/<username>')
+def greet(username):
+    # TODO
+    pass
+","```python
+from flask import Flask, jsonify
+app = Flask(__name__)
+
+@app.route('/greet/<username>')
+def greet(username):
+    return jsonify({'greeting': f'Hello, {username}!'})
+```","Certainly! You want to create an endpoint `/greet/<username>` that responds with JSON containing a greeting message. Following the pattern you provided, here's the implementation:
+
+```python
+from flask import Flask, jsonify
+app = Flask(__name__)
+
+@app.route('/greet/<username>')
+def greet(username):
+    return jsonify({'greeting': f'Hello, {username}!'})
+```
+
+This function captures the `<username>` from the URL and returns a JSON object with the key `""greeting""` and the value `""Hello, <username>!""`.",0.7928403615951538,"{'codebleu': 0.39225517162670037, 'ngram_match_score': 0.06681134664285131, 'weighted_ngram_match_score': 0.26505518966632163, 'syntax_match_score': 0.782608695652174, 'dataflow_match_score': 0.45454545454545453}",0,325
+"Example (SQL schema snippet)
+CREATE TABLE users(id SERIAL PRIMARY KEY, name TEXT);
+
+Design tables users, books, reviews with proper PK‑FK relations and rating INT 1‑5:","
+-- your schema here
+","```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+CREATE TABLE books (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    author TEXT NOT NULL
+);
+
+CREATE TABLE reviews (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    book_id INT NOT NULL REFERENCES books(id) ON DELETE CASCADE,
+    rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    review_text TEXT,
+    UNIQUE (user_id, book_id)
+);
+```","Certainly! Here's a sample schema design for `users`, `books`, and `reviews` tables with proper primary key (PK) and foreign key (FK) relationships, including a `rating` column constrained to values 1 through 5:
+
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+CREATE TABLE books (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    author TEXT NOT NULL
+);
+
+CREATE TABLE reviews (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    book_id INTEGER NOT NULL REFERENCES books(id) ON DELETE CASCADE,
+    rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    review_text TEXT,
+    review_date TIMESTAMP DEFAULT NOW()
+);
+```
+
+**Explanation:**
+
+- `users`: Stores user information with `id` as primary key.
+- `books`: Stores book information with `id` as primary key.
+- `reviews`: Stores reviews with:
+  - `user_id` referencing `users(id)`.
+  - `book_id` referencing `books(id)`.
+  - `rating` constrained to values between 1 and 5.
+  - Optional `review_text` and `review_date`.
+
+This setup enforces referential integrity and ensures ratings are within the specified range.",0.7033231258392334,"{'codebleu': 0.39124671991251675, 'ngram_match_score': 0.2444400387158344, 'weighted_ngram_match_score': 0.35765885173045403, 'syntax_match_score': 0.38596491228070173, 'dataflow_match_score': 0.5769230769230769}",0,684
+"Example (Java null‑check)
+if(s == null) return 0; else return s.length();
+
+Task: point out the null‑dereference risk in the following method and suggest a safe fix:","
+public int getLength(String s){
+    return s.length();
+}
+","The method
+
+```java
+public int getLength(String s){
+    return s.length();
+}
+```
+
+has a **null-dereference risk** because if the argument `s` is `null`, calling `s.length()` will throw a `NullPointerException`.
+
+---
+
+### Safe Fix
+
+Add a null check before calling `length()`, for example:
+
+```java
+public int getLength(String s){
+    if (s == null) {
+        return 0; // or any other default value indicating null
+    }
+    return s.length();
+}
+```
+
+This way, if `s` is `null`, the method returns 0 instead of throwing an exception.","The method `getLength` has a null‑dereference risk because it directly calls `s.length()` without checking whether `s` is null. If `s` is null when the method is invoked, this will result in a `NullPointerException`.
+
+**Null‑dereference risk:**
+```java
+return s.length(); // potential NullPointerException if s is null
+```
+
+---
+
+**Safe fix:**
+
+Add a null check before accessing `s.length()`. For example:
+
+```java
+public int getLength(String s) {
+    if (s == null) {
+        return 0; // or handle appropriately
+    } else {
+        return s.length();
+    }
+}
+```
+
+**Alternatively, using a ternary operator:**
+
+```java
+public int getLength(String s) {
+    return (s == null) ? 0 : s.length();
+}
+```
+
+This ensures that if `s` is null, the method safely returns 0 (or any other default value you deem appropriate), avoiding a `NullPointerException`.",0.958325982093811,"{'codebleu': 0.35694741122085355, 'ngram_match_score': 0.1980813322362856, 'weighted_ngram_match_score': 0.22640500934382543, 'syntax_match_score': 0.581081081081081, 'dataflow_match_score': 0.4222222222222222}",0,478
+"Example (Python CSV)
+Use csv module or regex to keep quoted fields intact, e.g.
+csv.reader([line])  ➜  list(row)
+
+Rewrite the parser so it correctly handles lines with quotes:","
+def parse_csv_line(line):
+    return line.split(',')  # broken
+","To correctly parse a CSV line that may contain quoted fields (which can include commas inside quotes), you should use Python's built-in `csv` module instead of a naive `split(',')`.
+
+Here is a fixed version of your function using `csv.reader`:
+
+```python
+import csv
+from io import StringIO
+
+def parse_csv_line(line):
+    # csv.reader expects an iterable, so wrap the line in a list or StringIO
+    return next(csv.reader([line]))
+```
+
+### Explanation:
+- `csv.reader` correctly handles quoted fields, escaped quotes, and commas inside quotes.
+- Wrapping `line` in a list makes it iterable for `csv.reader`.
+- `next()` extracts the first parsed row from the reader iterator.
+
+### Example:
+
+```python
+line = 'one,""two, with comma"",three,""four """"quoted""""""'
+print(parse_csv_line(line))
+# Output: ['one', 'two, with comma', 'three', 'four ""quoted""']
+```
+
+This way, your parser works for normal CSV lines with or without quoted fields.","Certainly! The current implementation simply splits the line on commas, which breaks when fields are quoted and contain commas inside them. To handle quoted fields correctly, you can use Python's built-in `csv` module, which is designed for this purpose.
+
+Here's a rewritten version of your parser using the `csv` module:
+
+```python
+import csv
+from io import StringIO
+
+def parse_csv_line(line):
+    # Use StringIO to make the line file-like for csv.reader
+    reader = csv.reader([line])
+    return next(reader)  # get the first (and only) row as a list
+```
+
+**Usage example:**
+```python
+line = 'value1,""value, with, commas"",value3'
+parsed = parse_csv_line(line)
+print(parsed)
+# Output: ['value1', 'value, with, commas', 'value3']
+```
+
+This approach correctly handles quoted fields, embedded commas, and other CSV nuances. If you prefer regex, it's more complex and error-prone, so `csv` is the recommended way.
+
+Let me know if you'd like an example with regex, but generally, `csv.reader` is the most reliable method for parsing CSV lines with quotes.",0.8326199054718018,"{'codebleu': 0.42203896850950384, 'ngram_match_score': 0.14564219498905556, 'weighted_ngram_match_score': 0.15148435184941997, 'syntax_match_score': 0.5531914893617021, 'dataflow_match_score': 0.8378378378378378}",0,682
+"Example (Ktor)
+get(""/product/{id}""){ ... }
+post(""/product""){ ... }
+
+Create equivalent GET and POST routes for the Product data class shown below:","
+data class Product(val id:Int, val name:String, val price:Double)
+","Sure! Here's an example of how you can create equivalent GET and POST routes in Ktor for the `Product` data class:
+
+```kotlin
+import io.ktor.application.*
+import io.ktor.http.*
+import io.ktor.request.*
+import io.ktor.response.*
+import io.ktor.routing.*
+import io.ktor.server.engine.*
+import io.ktor.server.netty.*
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+
+// Make sure to add kotlinx.serialization dependencies and plugin
+
+@Serializable
+data class Product(val id: Int, val name: String, val price: Double)
+
+fun main() {
+    embeddedServer(Netty, port = 8080) {
+        routing {
+            // In-memory product storage
+            val products = mutableListOf<Product>(
+                Product(1, ""Laptop"", 1200.0),
+                Product(2, ""Phone"", 800.0)
+            )
+
+            // GET route to fetch product by id
+            get(""/product/{id}"") {
+                val id = call.parameters[""id""]?.toIntOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, ""Missing or invalid id"")
+                    return@get
+                }
+
+                val product = products.find { it.id == id }
+                if (product == null) {
+                    call.respond(HttpStatusCode.NotFound, ""Product not found"")
+                } else {
+                    call.respond(product)
+                }
+            }
+
+            // POST route to add new product
+            post(""/product"") {
+                val product = call.receive<Product>()
+                products.add(product)
+                call.respond(HttpStatusCode.Created, product)
+            }
+        }
+    }.start(wait = true)
+}
+```
+
+### Explanation:
+- The GET `/product/{id}` retrieves a product by its id. It reads the `id` path parameter, searches the product in the list, and returns it if found.
+- The POST `/product` expects a JSON body with the product data and adds it to the in-memory list, then responds with the created product.
+- The `Product` data class is annotated with `@Serializable` for JSON serialization/deserialization.
+- You’ll need to add Ktor and kotlinx.serialization dependencies to your project.
+
+Let me know if you want an example of the dependencies or how to configure serialization!","Certainly! Here's how you can create equivalent GET and POST routes for the `Product` data class using Ktor:
+
+```kotlin
+// Import necessary Ktor packages
+import io.ktor.application.*
+import io.ktor.response.*
+import io.ktor.request.*
+import io.ktor.routing.*
+import io.ktor.http.*
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+
+// Make sure to install and configure the ContentNegotiation plugin with JSON serialization
+// e.g., in your Application module:
+// install(ContentNegotiation) { json() }
+
+// Define the Product data class
+@Serializable
+data class Product(val id: Int, val name: String, val price: Double)
+
+fun Application.module() {
+    routing {
+        // GET route to fetch a product by ID
+        get(""/product/{id}"") {
+            val idParam = call.parameters[""id""]
+            val id = idParam?.toIntOrNull()
+
+            if (id == null) {
+                call.respond(HttpStatusCode.BadRequest, ""Invalid or missing id parameter"")
+                return@get
+            }
+
+            // Here, you would retrieve the product from your data source
+            // For example purposes, creating a dummy product
+            val product = Product(id, ""Sample Product"", 99.99)
+
+            call.respond(product)
+        }
+
+        // POST route to create a new product
+        post(""/product"") {
+            try {
+                val product = call.receive<Product>()
+
+                // Save the product to your data source
+                // For demonstration, just respond with the received product
+                call.respond(HttpStatusCode.Created, product)
+            } catch (e: Exception) {
+                call.respond(HttpStatusCode.BadRequest, ""Invalid product data"")
+            }
+        }
+    }
+}
+```
+
+### Explanation:
+- **GET `/product/{id}`**:
+  - Retrieves the `id` from the URL path.
+  - Converts it to an `Int`.
+  - Fetches or creates a `Product` instance (here, a dummy product).
+  - Responds with the product serialized as JSON.
+
+- **POST `/product`**:
+  - Receives a JSON payload and deserializes it into a `Product`.
+  - You can then save or process the product as needed.
+  - Responds with the created product and a `201 Created` status.
+
+**Note:** Ensure you have installed and configured the `ContentNegotiation` plugin with JSON serialization (`kotlinx.serialization`) for this to work seamlessly.
+
+Let me know if you'd like a more detailed example or additional features!",0.9664497375488281,"{'codebleu': 0.4345945633039362, 'ngram_match_score': 0.2495407114855879, 'weighted_ngram_match_score': 0.25963657933937556, 'syntax_match_score': 0.5849056603773585, 'dataflow_match_score': 0.6442953020134228}",0,1348
+"Example (summary)
+`def double(x): return 2*x` ➜ ""Returns twice the input.""
+
+Now write a one‑sentence summary of this function:","
+def reverse_words(sentence):
+    return ' '.join(sentence.split()[::-1])
+",Returns the input sentence with the order of its words reversed.,Reverses the order of words in the input sentence.,0.9218379855155945,"{'codebleu': 0.3163151223767656, 'ngram_match_score': 0.12278260149096115, 'weighted_ngram_match_score': 0.14247788801610148, 'syntax_match_score': 0.0, 'dataflow_match_score': 1.0}",0,42
+"Example (prompt from comment)
+Comment: # add two numbers
+Prompt: ""Write a Python function that adds two numbers.""
+
+Generate a prompt (one sentence) that could have produced the following prime‑check function:","
+# This function checks if a number is prime
+def is_prime(n):
+    if n <= 1: return False
+    for i in range(2,int(n**0.5)+1):
+        if n % i == 0: return False
+    return True
+",Write a Python function that checks whether a given number is prime.,Write a Python function that determines whether a given number is prime.,0.9944274425506592,"{'codebleu': 0.8684795558138385, 'ngram_match_score': 0.7348889200874658, 'weighted_ngram_match_score': 0.7390293031678882, 'syntax_match_score': 1.0, 'dataflow_match_score': 1.0}",0,8
+"Example (bug explanation)
+Factorial should return 1 when n==0; loop needs range(1,n+1).
+
+Fix the factorial implementation below so factorial(0)==1 and factorial(5)==120:","
+def factorial(n):
+    result = 1
+    for i in range(1, n):
+        result *= i
+    return result
+","The issue is that the loop runs from `1` to `n-1` instead of up to `n`, so it never multiplies by `n`. Also, factorial(0) should return 1, which your code already does because the loop doesn't run at all.
+
+To fix it, change the loop range to `range(1, n+1)` so it includes `n`:
+
+```python
+def factorial(n):
+    result = 1
+    for i in range(1, n+1):
+        result *= i
+    return result
+```
+
+Now:
+
+- `factorial(0) == 1`
+- `factorial(5) == 120`","Certainly! The current implementation has two issues:
+
+1. When `n == 0`, it should return 1, but the loop doesn't run because `range(1, 0)` is empty.
+2. The loop's range should be `range(1, n+1)` to include `n` itself.
+
+Here's the fixed version:
+
+```python
+def factorial(n):
+    result = 1
+    for i in range(1, n + 1):
+        result *= i
+    return result
+```
+
+This implementation ensures that:
+
+- `factorial(0)` returns 1.
+- `factorial(5)` returns 120.",0.7522581815719604,"{'codebleu': 0.5063881219523736, 'ngram_match_score': 0.23789701522661094, 'weighted_ngram_match_score': 0.2736694585968692, 'syntax_match_score': 0.5909090909090909, 'dataflow_match_score': 0.9230769230769231}",0,258
+"Example (C linked‑list delete)
+Maintain prev & curr pointers; update head if first node matches.
+
+Implement `deleteNode` that removes the node whose data == key:","
+struct Node{ int data; struct Node* next; };
+
+void deleteNode(struct Node** head, int key){
+    // TODO
+}
+","Here's a complete implementation of `deleteNode` that removes the first node with `data == key` from a singly linked list, maintaining `prev` and `curr` pointers and updating the `head` if needed:
+
+```c
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+void deleteNode(struct Node** head, int key) {
+    if (head == NULL || *head == NULL) return;
+
+    struct Node* curr = *head;
+    struct Node* prev = NULL;
+
+    // If the head node itself holds the key to be deleted
+    if (curr->data == key) {
+        *head = curr->next;  // Change head
+        free(curr);          // free old head
+        return;
+    }
+
+    // Search for the key to be deleted, keep track of prev
+    while (curr != NULL && curr->data != key) {
+        prev = curr;
+        curr = curr->next;
+    }
+
+    // If key was not present in linked list
+    if (curr == NULL) return;
+
+    // Unlink the node from linked list
+    prev->next = curr->next;
+
+    free(curr);  // Free memory
+}
+```
+
+### Explanation:
+- Check if the list is empty.
+- Check if the head node contains the key; if yes, update `head` and free the node.
+- Otherwise, iterate through the list with `prev` and `curr` until you find the node with the key.
+- If found, unlink it by adjusting `prev->next`.
+- Finally, free the removed node's memory.","Certainly! Here's a complete implementation of `deleteNode` which traverses the linked list, maintains `prev` and `curr` pointers, and updates the head if the node to delete is the first node:
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+void deleteNode(struct Node** head, int key) {
+    if (head == NULL || *head == NULL) {
+        // Empty list, nothing to delete
+        return;
+    }
+
+    struct Node* curr = *head;
+    struct Node* prev = NULL;
+
+    // Traverse the list to find the node with data == key
+    while (curr != NULL && curr->data != key) {
+        prev = curr;
+        curr = curr->next;
+    }
+
+    if (curr == NULL) {
+        // Key not found in list
+        return;
+    }
+
+    // If the node to delete is the head node
+    if (prev == NULL) {
+        *head = curr->next;
+    } else {
+        // Bypass the node to delete
+        prev->next = curr->next;
+    }
+
+    // Free the memory of the deleted node
+    free(curr);
+}
+```
+
+**Explanation:**
+
+- We first check if the list is empty.
+- Use `curr` to traverse the list, and `prev` to keep track of the previous node.
+- When the node with `data == key` is found:
+  - If it's the head node (`prev == NULL`), update the head pointer.
+  - Otherwise, bypass it by linking `prev->next` to `curr->next`.
+- Finally, free the memory allocated for the deleted node to prevent memory leaks.
+
+Feel free to ask if you'd like a full example with list creation and testing!",0.9154682159423828,"{'codebleu': 0.5382161610666355, 'ngram_match_score': 0.3603120158268039, 'weighted_ngram_match_score': 0.3703304062175161, 'syntax_match_score': 0.7, 'dataflow_match_score': 0.7222222222222222}",0,823
+"Example
+Base cases: 0→0, 1→1; recurse n‑1 + n‑2.
+
+Fill in the missing parts of fibonacci(n):","
+def fibonacci(n):
+    # TODO
+    pass
+","Here is a complete implementation of the Fibonacci function based on your example:
+
+```python
+def fibonacci(n):
+    # Base cases
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    # Recursive case
+    else:
+        return fibonacci(n - 1) + fibonacci(n - 2)
+```
+
+This function returns the nth Fibonacci number, where `fibonacci(0) = 0` and `fibonacci(1) = 1`. For all other values, it recursively computes the sum of the two preceding Fibonacci numbers.","Certainly! Based on the description, the Fibonacci function should handle the base cases where `n` is 0 or 1, and for other values, it should recursively sum the results of the previous two calls.
+
+Here's the complete implementation:
+
+```python
+def fibonacci(n):
+    # Base cases
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    # Recursive case
+    else:
+        return fibonacci(n - 1) + fibonacci(n - 2)
+```
+
+**Explanation:**
+- When `n` is 0, it returns 0.
+- When `n` is 1, it returns 1.
+- For any other `n`, it recursively computes `fibonacci(n - 1)` and `fibonacci(n - 2)` and sums them.
+
+**Note:** This implementation is straightforward but can be inefficient for large `n` due to repeated calculations. For optimized performance, consider using memoization or iterative approaches.",0.8973902463912964,"{'codebleu': 0.353982654081076, 'ngram_match_score': 0.23996785963394848, 'weighted_ngram_match_score': 0.29177158021976723, 'syntax_match_score': 0.53125, 'dataflow_match_score': 0.35294117647058826}",0,450
+"Example
+class Car: def __init__(self,make): self.make=make
+
+Add params name, age, optional email to the constructor below:","
+class Person:
+    def __init__(self):
+        pass
+","Here's how you can add the parameters `name`, `age`, and an optional `email` to the `Person` class constructor:
+
+```python
+class Person:
+    def __init__(self, name, age, email=None):
+        self.name = name
+        self.age = age
+        self.email = email
+```
+
+- `name` and `age` are required parameters.
+- `email` is optional and defaults to `None` if not provided.","```python
+class Person:
+    def __init__(self, name, age, email=None):
+        self.name = name
+        self.age = age
+        self.email = email
+```",0.818344235420227,"{'codebleu': 0.6818882167734543, 'ngram_match_score': 0.3136334531744037, 'weighted_ngram_match_score': 1.0, 'syntax_match_score': 0.9523809523809523, 'dataflow_match_score': 0.46153846153846156}",0,220
+"Example (binary search)
+while(l<=r): mid=(l+r)//2; compare arr[mid] with target...
+
+Complete the binarySearch method so it returns index or -1:","
+public int binarySearch(int[] arr,int target){
+    int left=0,right=arr.length-1;
+    while(left<=right){
+        int mid=(left+right)/2;
+        // TODO
+    }
+    return -1;
+}
+","Here's the complete `binarySearch` method:
+
+```java
+public int binarySearch(int[] arr, int target) {
+    int left = 0, right = arr.length - 1;
+    while (left <= right) {
+        int mid = (left + right) / 2;
+        if (arr[mid] == target) {
+            return mid; // found target, return index
+        } else if (arr[mid] < target) {
+            left = mid + 1; // search right half
+        } else {
+            right = mid - 1; // search left half
+        }
+    }
+    return -1; // target not found
+}
+```
+
+Explanation:
+- Calculate `mid`.
+- If `arr[mid]` equals `target`, return `mid`.
+- If `arr[mid]` is less than `target`, move `left` up to `mid + 1`.
+- Otherwise, move `right` down to `mid - 1`.
+- If the loop ends, target is not in the array, return `-1`.","Certainly! Here's the complete implementation of the `binarySearch` method, which performs a binary search to find the `target` in the sorted array `arr`. If the `target` is found, it returns its index; otherwise, it returns -1.
+
+```java
+public int binarySearch(int[] arr, int target) {
+    int left = 0;
+    int right = arr.length - 1;
+    while (left <= right) {
+        int mid = (left + right) / 2; // Calculate middle index
+        if (arr[mid] == target) {
+            // Target found at index mid
+            return mid;
+        } else if (arr[mid] < target) {
+            // Continue search in the right half
+            left = mid + 1;
+        } else {
+            // Continue search in the left half
+            right = mid - 1;
+        }
+    }
+    // Target not found
+    return -1;
+}
+```
+
+**Explanation:**
+- We initialize `left` and `right` pointers to the start and end of the array.
+- While `left` is less than or equal to `right`, we:
+  - Compute `mid`.
+  - Compare `arr[mid]` with `target`.
+  - If equal, return `mid`.
+  - If `arr[mid]` is less than `target`, move `left` to `mid + 1` to search the right half.
+  - If `arr[mid]` is greater than `target`, move `right` to `mid - 1` to search the left half.
+- If the loop terminates without finding the target, return -1.
+
+Let me know if you'd like a version that handles potential integer overflow when calculating `mid`.",0.8895883560180664,"{'codebleu': 0.3932374145608077, 'ngram_match_score': 0.2455324126489949, 'weighted_ngram_match_score': 0.2990989415284234, 'syntax_match_score': 0.6201550387596899, 'dataflow_match_score': 0.40816326530612246}",0,753
+"Example
+Function name says isEven but body checks odd ➜ fix logic or rename.
+
+Correct the inconsistency in the following C++ function:","
+bool isOdd(int x){
+    return x % 2 == 0;
+}
+","The function name is `isOdd` but the body checks if `x` is even (`x % 2 == 0`). To fix the inconsistency, either:
+
+1. Rename the function to `isEven`, or  
+2. Change the function body to check for odd numbers.
+
+Since the function name is `isOdd`, the correct fix is:
+
+```cpp
+bool isOdd(int x){
+    return x % 2 != 0;
+}
+```","The function name `isOdd` suggests it should return true when `x` is odd, but the current implementation returns true when `x` is even (`x % 2 == 0`).
+
+**Fix:**
+
+Either change the function name to `isEven` or fix the logic to correctly check for odd numbers.
+
+**Corrected version:**
+
+```cpp
+bool isOdd(int x){
+    return x % 2 != 0;
+}
+```
+
+This way, the function name matches its logic.",0.9610745310783386,"{'codebleu': 0.49277262038822844, 'ngram_match_score': 0.36354325453231723, 'weighted_ngram_match_score': 0.3730974662550462, 'syntax_match_score': 0.5526315789473685, 'dataflow_match_score': 0.6818181818181818}",0,237
+"Example
+Bug: returns 1/0 instead of boolean; fix with n%2==0.
+
+Identify & repair the bug in this JS function:","
+function isEven(n){
+    return n % 2;
+}
+","Bug: The function returns `n % 2`, which is `0` for even numbers and `1` for odd numbers, but `0` is falsy and `1` is truthy in JavaScript, so the function returns `false` for even numbers and `true` for odd numbers, which is the opposite of the intended behavior.
+
+Fix: Return the boolean expression `n % 2 === 0` to correctly indicate even numbers.
+
+Corrected function:
+
+```js
+function isEven(n) {
+    return n % 2 === 0;
+}
+```","The bug is that the function returns 1 or 0 instead of a boolean value (`true` or `false`). To fix this, compare the remainder to zero:
+
+```javascript
+function isEven(n) {
+    return n % 2 === 0;
+}
+```",0.911901593208313,"{'codebleu': 0.4336502427261347, 'ngram_match_score': 0.15388995097355704, 'weighted_ngram_match_score': 0.3214517606717227, 'syntax_match_score': 0.5925925925925926, 'dataflow_match_score': 0.6666666666666666}",0,294
+"Example
+High‑level summary ➜ break into steps: validate → compute → return.
+
+Decompose the comment and list each logical step of the next C++ function:","
+// Function that validates an input, calculates square, and returns result
+int process(int x){
+    if(x<0) return -1;
+    return x*x;
+}
+","Sure! Here is the decomposition of the comment into logical steps for the `process` function:
+
+1. **Validate input**: Check if the input `x` is negative.
+2. **Return error code if invalid**: If `x` is less than 0, return -1.
+3. **Compute**: Calculate the square of `x`.
+4. **Return result**: Return the squared value.
+
+In summary:
+
+- Validate → Return error if invalid → Compute → Return result","Decompose the comment and list each logical step of the function:
+
+1. Validate the input: check if `x` is negative.
+2. If `x` is negative, return -1 to indicate invalid input.
+3. If `x` is non-negative, compute its square (`x * x`).
+4. Return the computed square as the result.",0.7956878542900085,"{'codebleu': 0.34648797936156206, 'ngram_match_score': 0.07859705270344033, 'weighted_ngram_match_score': 0.10955266694061021, 'syntax_match_score': 0.2692307692307692, 'dataflow_match_score': 0.9285714285714286}",0,236
+"Example
+Compute average: total = sum(lst); return total/len(lst).
+
+Finish calculate_average so it returns the mean of scores:","
+def calculate_average(scores):
+    total = 0
+    # TODO
+    pass
+","Here's the completed function that returns the mean of the `scores` list:
+
+```python
+def calculate_average(scores):
+    total = sum(scores)
+    return total / len(scores)
+```
+
+Alternatively, if you want to keep the `total` variable initialized to 0 and then add each score manually, you can do:
+
+```python
+def calculate_average(scores):
+    total = 0
+    for score in scores:
+        total += score
+    return total / len(scores)
+```","```python
+def calculate_average(scores):
+    total = sum(scores)
+    return total / len(scores)
+```",0.8614223003387451,"{'codebleu': 0.7326162724175814, 'ngram_match_score': 0.1559552857487569, 'weighted_ngram_match_score': 1.0, 'syntax_match_score': 0.9411764705882353, 'dataflow_match_score': 0.8333333333333334}",0,334
+"Example (refactor)
+Add input validation, use pathlib, guard main, etc.
+
+Review the utility script below, list issues, then provide a refactored version:","
+# utils.py ...
+import csv
+def read_csv(filepath):
+    with open(filepath,'r') as f:
+        return [row for row in csv.reader(f)]
+def summarize_column(data,index):
+    values=[float(row[index]) for row in data[1:]]
+    total=sum(values); avg=total/len(values); return total,avg
+def main():
+    filepath='data.csv'
+    data=read_csv(filepath)
+    total,avg=summarize_column(data,1)
+    print(""Total:"",total); print(""Average:"",avg)
+if __name__=='__main__': main()
+","**Review and issues in the original script:**
+
+1. **No input validation:**
+   - `read_csv` assumes the file exists and is readable; no error handling.
+   - `summarize_column` assumes the index is valid and all values convertible to float.
+2. **Hardcoded file path:**
+   - `main()` uses a fixed filename `'data.csv'`.
+3. **No CLI argument support:**
+   - It would be better to allow specifying input file and column index via command line.
+4. **No use of `pathlib`:**
+   - Uses plain string paths instead of `pathlib.Path`.
+5. **No function docstrings or comments.**
+6. **Multiple statements on one line:**
+   - Reduces readability (e.g. `total=sum(values); avg=total/len(values); return total,avg`)
+7. **No guard for main in a multi-module project (though it does have `if __name__=='__main__'`).**
+8. **No handling of empty or malformed CSV files.**
+9. **No type hints or annotations.**
+
+---
+
+**Refactored version with improvements:**
+
+```python
+import csv
+from pathlib import Path
+import sys
+
+def read_csv(filepath: Path) -> list[list[str]]:
+    """"""
+    Reads a CSV file and returns the data as a list of rows,
+    each row is a list of strings.
+    """"""
+    if not filepath.exists():
+        raise FileNotFoundError(f""File not found: {filepath}"")
+    if not filepath.is_file():
+        raise ValueError(f""Not a file: {filepath}"")
+
+    with filepath.open('r', newline='') as f:
+        reader = csv.reader(f)
+        data = list(reader)
+    if not data:
+        raise ValueError(""CSV file is empty"")
+    return data
+
+def summarize_column(data: list[list[str]], index: int) -> tuple[float, float]:
+    """"""
+    Summarizes the numeric values in the specified column index.
+    Returns total and average.
+    """"""
+    if not data or len(data) < 2:
+        raise ValueError(""Data must contain at least one header and one data row"")
+
+    # Validate index
+    header = data[0]
+    if index < 0 or index >= len(header):
+        raise IndexError(f""Column index {index} out of range for header with {len(header)} columns"")
+
+    values = []
+    for row_num, row in enumerate(data[1:], start=2):  # start=2 for line numbers (1-based)
+        try:
+            value = float(row[index])
+            values.append(value)
+        except (IndexError, ValueError) as e:
+            raise ValueError(f""Invalid data in row {row_num}, column {index}: {e}"")
+
+    if not values:
+        raise ValueError(""No numeric data found in the specified column"")
+
+    total = sum(values)
+    avg = total / len(values)
+    return total, avg
+
+def main():
+    import argparse
+
+    parser = argparse.ArgumentParser(description=""Summarize a numeric column from a CSV file."")
+    parser.add_argument('filepath', type=Path, help=""Path to the CSV file"")
+    parser.add_argument('column', type=int, help=""Column index to summarize (0-based)"")
+    args = parser.parse_args()
+
+    try:
+        data = read_csv(args.filepath)
+        total, avg = summarize_column(data, args.column)
+    except Exception as e:
+        print(f""Error: {e}"", file=sys.stderr)
+        sys.exit(1)
+
+    print(f""Total: {total}"")
+    print(f""Average: {avg}"")
+
+if __name__ == '__main__':
+    main()
+```
+
+---
+
+**Summary of changes:**
+
+- Used `pathlib.Path` for file paths.
+- Added argument parsing to specify file and column.
+- Added input validation and error handling.
+- Added docstrings.
+- Improved readability and formatting.
+- Added descriptive error messages.
+- Guarded entry point with `if __name__ == '__main__'`.
+- Used standard `argparse` for CLI.
+- Checked for empty files, invalid indexes, and conversion errors.","**Issues in the original script:**
+
+1. **No input validation:** No checks to confirm the file exists, is readable, or the index is valid.
+2. **Using string-based file paths:** Can be improved with `pathlib.Path`.
+3. **No `if __name__ == ""__main__"":` guard:** It's present, but code could be better guarded.
+4. **No command-line argument support:** Hardcoded filename; could accept filename via arguments.
+5. **Lack of error handling:** No try-except blocks, risking unhandled exceptions.
+6. **No use of `with` context manager for CSV reading:** Actually, it is used correctly.
+7. **No main function guard for execution logic:** Properly used.
+8. **Code style:** Minor formatting issues, such as multiple statements on one line.
+
+---
+
+### List of issues:
+- Missing input validation (file existence, readability, index bounds)
+- Not using `pathlib.Path`
+- Hardcoded filename; no CLI args
+- No error handling for file I/O or data parsing
+- Use of multiple statements on one line (`total=sum(values); avg=total/len(values)`) which reduces readability
+- No docstrings or comments for functions
+- Main function could accept parameters for more flexibility
+
+---
+
+### Refactored version:
+
+```python
+import csv
+from pathlib import Path
+import sys
+
+def read_csv(filepath):
+    """"""
+    Reads a CSV file and returns the data as a list of rows.
+    """"""
+    if not isinstance(filepath, Path):
+        filepath = Path(filepath)
+    if not filepath.exists():
+        raise FileNotFoundError(f""File not found: {filepath}"")
+    if not filepath.is_file():
+        raise ValueError(f""Path is not a file: {filepath}"")
+
+    with filepath.open('r', newline='') as f:
+        return [row for row in csv.reader(f)]
+
+def summarize_column(data, index):
+    """"""
+    Calculates the total and average of a specified column (by index) in the data.
+    """"""
+    if not data:
+        raise ValueError(""Data is empty."")
+    header = data[0]
+    if index < 0 or index >= len(header):
+        raise IndexError(f""Index {index} out of bounds for data with {len(header)} columns."")
+
+    values = []
+    for row in data[1:]:
+        try:
+            value = float(row[index])
+            values.append(value)
+        except ValueError:
+            # Skip rows where conversion fails
+            continue
+
+    if not values:
+        raise ValueError(""No valid numeric data found in the specified column."")
+    total = sum(values)
+    avg = total / len(values)
+    return total, avg
+
+def main():
+    """"""
+    Main function to parse arguments, process CSV, and display results.
+    """"""
+    import argparse
+
+    parser = argparse.ArgumentParser(description=""Process a CSV file to summarize a specific column."")
+    parser.add_argument('filepath', type=Path, help='Path to the CSV file')
+    parser.add_argument('column_index', type=int, help='Zero-based index of the column to summarize')
+    args = parser.parse_args()
+
+    try:
+        data = read_csv(args.filepath)
+        total, avg = summarize_column(data, args.column_index)
+        print(f""Total: {total}"")
+        print(f""Average: {avg}"")
+    except (FileNotFoundError, ValueError, IndexError) as e:
+        print(f""Error: {e}"")
+        sys.exit(1)
+
+if __name__ == ""__main__"":
+    main()
+```
+
+---
+
+### Summary of improvements:
+- Uses `pathlib.Path` for file handling.
+- Adds input validation with checks for file existence and proper index bounds.
+- Incorporates command-line arguments for flexibility.
+- Wraps the main execution logic in a `main()` function guarded by `if __name__ == ""__main__""`.
+- Adds error handling for common issues.
+- Improves code readability and style.
+- Provides docstrings for functions.
+
+This approach makes the utility more robust, flexible, and user-friendly.",0.9529752731323242,"{'codebleu': 0.42308755893550165, 'ngram_match_score': 0.2808322663301984, 'weighted_ngram_match_score': 0.29337587522180997, 'syntax_match_score': 0.4594594594594595, 'dataflow_match_score': 0.6586826347305389}",0,2011
+"Example
+clean_line: remove punctuation via str.translate, lower(), strip.
+
+Complete the script so it cleans text and counts word frequencies:","
+# file_processor.py
+import string
+def load_file(fp): ...
+def clean_line(line):
+    # TODO
+    pass
+def count_words(lines): ...
+","Here's a complete example filling in your functions. The `clean_line` function removes punctuation using `str.translate`, converts to lowercase, and strips whitespace. The script loads a text file, cleans each line, and counts word frequencies.
+
+```python
+# file_processor.py
+import string
+from collections import Counter
+
+def load_file(fp):
+    """"""Load lines from a file.""""""
+    with open(fp, 'r', encoding='utf-8') as f:
+        return f.readlines()
+
+def clean_line(line):
+    """"""Remove punctuation, convert to lower case, and strip whitespace.""""""
+    translator = str.maketrans('', '', string.punctuation)
+    return line.translate(translator).lower().strip()
+
+def count_words(lines):
+    """"""Count word frequencies from a list of lines.""""""
+    counter = Counter()
+    for line in lines:
+        cleaned = clean_line(line)
+        words = cleaned.split()
+        counter.update(words)
+    return counter
+
+if __name__ == '__main__':
+    lines = load_file('sample.txt')
+    word_counts = count_words(lines)
+    for word, count in word_counts.most_common(10):
+        print(f'{word}: {count}')
+```
+
+**Explanation:**
+
+- `load_file` reads all lines from a file.
+- `clean_line` removes punctuation using `str.translate` + `string.punctuation`, then lowercases and strips.
+- `count_words` cleans each line, splits into words, and counts them using a `Counter`.
+- The example usage prints the top 10 most common words.
+
+Let me know if you want me to adapt it for a different use case!","```python
+# file_processor.py
+import string
+
+def load_file(fp):
+    with open(fp, 'r', encoding='utf-8') as file:
+        return file.readlines()
+
+def clean_line(line):
+    # Remove punctuation using str.translate
+    line = line.translate(str.maketrans('', '', string.punctuation))
+    # Convert to lowercase
+    line = line.lower()
+    # Strip leading/trailing whitespace
+    line = line.strip()
+    return line
+
+def count_words(lines):
+    word_counts = {}
+    for line in lines:
+        cleaned = clean_line(line)
+        words = cleaned.split()
+        for word in words:
+            if word:
+                word_counts[word] = word_counts.get(word, 0) + 1
+    return word_counts
+```",0.8314180374145508,"{'codebleu': 0.43463217635828577, 'ngram_match_score': 0.10946946389563364, 'weighted_ngram_match_score': 0.29269560517387305, 'syntax_match_score': 0.7, 'dataflow_match_score': 0.6363636363636364}",0,1010
