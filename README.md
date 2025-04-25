@@ -65,7 +65,7 @@ Install the required dependencies:
 
 ## **2.3 Enter your API key**
 
-You will need to enter your GitHub **Personal Access Token** (PAT) key into the script to use the models. Create a `token.txt` file, and paste your API key inside that file.
+You will need to enter your GitHub **Personal Access Token** (PAT) key into the script to use the models. Create a `token.txt` file (in this repository's root directory), and paste your API key inside that file.
 
 ## **2.4 Run the prompt engineering model**
 
@@ -84,6 +84,6 @@ You can find the `.csv` files in the `data/interim/user_files` folder.
 
 The assignment report is available inside the ``reports`` folder named ``Assignment_Report.pdf``.
 
-You can also find the model comparisons and analyses inside ``reports`` folder named ``Assignment_Analysis.pdf``.
+You can also find the model comparisons and analyses inside the ``reports`` folder named ``Assignment_Analysis.pdf``.
 
 
