@@ -72,7 +72,7 @@ Navigate to the ```src``` directory, then run:
 (venv) ~/Prompt-Engineering-for-In-Context-Learning/src $ python prompt-engineering.py
 ```
 
-You can find the `.csv` files in the `data/processed/user_files` folder.
+You can find the `.csv` files in the `data/interim/user_files` folder.
 
 ## 3. Report
 
