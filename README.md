@@ -3,9 +3,10 @@
 * [1 Introduction](#1-introduction)  
 * [2 Getting Started](#2-getting-started)  
   * [2.1 Preparations](#21-preparations)  
-  * [2.2 Install Packages](#22-install-packages)  
-  * [2.3 Run the prompt engineering model](#23-run-the-fine-tuning-model)  
-* [3 Report](#3-report)  
+  * [2.2 Install Packages](#22-install-packages)
+  * [2.3 Enter your API key](#23-enter-your-api-key)  
+  * [2.4 Run the prompt engineering model](#24-run-the-prompt-engineering-model)  
+* [3 Report & Analysis](#3-report--analysis)  
 
 ---
 
